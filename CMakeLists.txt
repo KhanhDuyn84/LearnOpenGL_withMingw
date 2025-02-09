@@ -19,5 +19,7 @@ add_executable(LearnOpenGL ${SOURCES} ${SRC_DIR}/glad.c)
 
 target_include_directories(LearnOpenGL PRIVATE ${INCLUDE_DIR})
 
+find_library(PDH_LIB NAMES pdh PATHS "C:/Program Files (x86)/Windows Kits/10/Lib/<version>/um/x64")
+
 target_link_libraries(LearnOpenGL PRIVATE ${LIB_DIR}/GLFW/libglfw3dll.a)
 target_link_libraries(LearnOpenGL PRIVATE ${LIB_DIR}/SOIL2/libsoil2.a)

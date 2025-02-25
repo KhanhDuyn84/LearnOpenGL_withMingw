@@ -1,17 +1,9 @@
 #include "Application.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "mapping.h"
 #include "WindowConfig.h"
 #include "FPSCalculator.h"
-#include "GLSLShader.h"
-#include "SOIL2/SOIL2.h"
 #include "Terrain.h"
 #include "Camera.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <iostream>
+#include "LightingScene.h"
 
 Application::Application()
 {
@@ -32,12 +24,14 @@ Application::Application()
 
 	setupCallbackFunc();
 
-    glm::vec3 cameraPos   = glm::vec3(0.0f, 3.0f,  15.0f);
+    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
     glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
     m_Camera = new Camera(cameraPos, cameraFront, cameraUp);
 
     m_Terrain = new Terrain(HEIGHT_MAP_0113_GIF);
+
+    m_lightScene = new LightingScene();
 
 }
 
@@ -51,6 +45,10 @@ Application::~Application()
     if (m_Terrain) {
         delete m_Terrain;
         m_Terrain = nullptr;
+    }
+
+    if (m_lightScene) {
+        
     }
     glfwDestroyWindow(m_MainWindow);
 	glfwTerminate();
@@ -304,10 +302,12 @@ void Application::run() {
 		m_FpsCalculator->doFrame();
         processInput(m_FpsCalculator->getDeltaTime());
 
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_Terrain->render(m_Camera, screenWidth, screenHeight);
+        //m_Terrain->render(m_Camera, screenWidth, screenHeight);
+
+        m_lightScene->renderScene(m_Camera, screenWidth, screenHeight);
 
 		// glActiveTexture(GL_TEXTURE0);
         // glBindTexture(GL_TEXTURE_2D, texture1);

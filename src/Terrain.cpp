@@ -1,12 +1,6 @@
 #include "Terrain.h"
 #include "glad/glad.h"
 #include "Camera.h"
-#include "mapping.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "GLSLShader.h"
-#include "SOIL2/SOIL2.h"
-#include <iostream>
 
 Terrain::Terrain(const char* imagePath)
 {
@@ -51,8 +45,8 @@ void Terrain::initBuffer(const char* imagePath)
     
     int index = 0;
     glm::vec4 whileColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    for(int j = 1; j < m_terrainHeight - 2; j++) {
-        for(int i = 1; i < m_terrainWidth - 2; i++) {
+    for(int j = 0; j < m_terrainHeight -1; j++) {
+        for(int i = 0; i < m_terrainWidth - 1; i++) {
             
             int index_bl = ((j * m_terrainWidth) + i ) * channels;
             int index_br = ((j * m_terrainWidth) + (i +1)) * channels;
@@ -113,6 +107,7 @@ void Terrain::initBuffer(const char* imagePath)
 
         }
     }
+    SOIL_free_image_data(imageData);
 
     glGenVertexArrays(1, &m_VAO);
     glGenBuffers(1, &m_VBO);
